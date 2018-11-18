@@ -11,14 +11,14 @@ env.dev = {
   envName: 'dev',
   stripe: {
     hostname: 'api.stripe.com',
-    publicKey: 'public key',
-    secretKey: 'secret key',
+    publicKey: process.env.STRIPE_PK,
+    secretKey: process.env.STRIPE_SK,
   },
   mailgun: {
-    domain: 'domain.mailgun.org',
-    apiKey: 'api key',
-    sender: 'Pizza App <email@email.com>',
-  }
+    domain: process.env.MAILGUN_DOMAIN,
+    apiKey: process.env.MAILGUN_API_KEY,
+    sender: process.env.MAINGUN_SENDER,
+  },
 };
 // Prod env config
 env.prod = {
@@ -27,14 +27,14 @@ env.prod = {
   envName: 'dev',
   stripe: {
     hostname: 'api.stripe.com',
-    publicKey: 'public key',
-    secretKey: 'secret key',
+    publicKey: process.env.STRIPE_PK,
+    secretKey: process.env.STRIPE_SK,
   },
   mailgun: {
-    domain: 'domain.mailgun.org',
-    apiKey: 'api key',
-    sender: 'Pizza App <email@email.com>',
-  }
+    domain: process.env.MAILGUN_DOMAIN,
+    apiKey: process.env.MAILGUN_API_KEY,
+    sender: process.env.MAINGUN_SENDER,
+  },
 };
 // Get the current env
 const currentEnv = typeof process.env.NODE_ENV === 'string' ?  process.env.NODE_ENV.trim().toLowerCase() === 'prod' || process.env.NODE_ENV.trim().toLowerCase() === 'production' ?
