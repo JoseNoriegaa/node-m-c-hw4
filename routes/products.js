@@ -3,7 +3,7 @@
  * id
  * name
  * description
- * cost
+ * price
  * currency
  * urlImage
  */
@@ -78,24 +78,24 @@ module.exports = (App) => {
       const validToken = await Tokens.validateToken(token);
       if (validToken) {
         // Get the product data
-        let { name, cost, description, currency, urlImage } = req.body;
+        let { name, price, description, currency, urlImage } = req.body;
         // Validate all parameters
         name = typeof name === 'string' && name.trim() ?
         name.trim().toLocaleLowerCase() : false;
-        cost = typeof cost === 'string' && /^[0-9]+.?[0-9]+$/.test(cost.trim()) ? 
-        cost.trim().toLocaleLowerCase() : false;
+        price = typeof price === 'string' && /^[0-9]+.?[0-9]+$/.test(price.trim()) ? 
+        price.trim().toLocaleLowerCase() : false;
         currency = typeof currency === 'string' && ['usd', 'mxn'].indexOf(currency.trim().toLocaleLowerCase()) > -1 ?
         currency.trim().toLocaleLowerCase() : false;
         description = typeof description === 'string' && description.trim() ? 
         description.trim().toLocaleLowerCase() : false;
         urlImage = typeof urlImage === 'string' && urlImage.trim() ?
         urlImage.trim().toLocaleLowerCase() : false;
-        if (name && cost && description && currency && urlImage) {
+        if (name && price && description && currency && urlImage) {
           const id = helpers.createRandomString(20);
           const product = {
             id,
             name,
-            cost,
+            price,
             description,
             currency,
             urlImage,
@@ -106,8 +106,8 @@ module.exports = (App) => {
         } else {
           if (!name) {
             res.status(400).send({Error: 'There are missing or invalid fields, please provide a valid name'});
-          } else if (!cost) {
-            res.status(400).send({Error: 'There are missing or invalid fields, please provide a valid cost'});
+          } else if (!price) {
+            res.status(400).send({Error: 'There are missing or invalid fields, please provide a valid price'});
           }  else if (!description) {
             res.status(400).send({Error: 'There are missing or invalid fields, please provide the description'});
           } else if (!currency) {
@@ -133,12 +133,12 @@ module.exports = (App) => {
       if (validToken) {
         // Get the item data
         let { id } = req.queryString;
-        let { name, cost, description, currency, urlImage } = req.body;
+        let { name, price, description, currency, urlImage } = req.body;
         // Validate all parameters
         name = typeof name === 'string' && name.trim() ?
         name.trim().toLocaleLowerCase() : false;
-        cost = typeof cost === 'string' && /^[0-9]+.?[0-9]+$/.test(cost.trim()) ? 
-        cost.trim().toLocaleLowerCase() : false;
+        price = typeof price === 'string' && /^[0-9]+.?[0-9]+$/.test(price.trim()) ? 
+        price.trim().toLocaleLowerCase() : false;
         currency = typeof currency === 'string' && ['usd', 'mxn'].indexOf(currency.trim().toLocaleLowerCase()) > -1 ?
         currency.trim().toLocaleLowerCase() : false;
         description = typeof description === 'string' && description.trim() ? 
@@ -149,15 +149,15 @@ module.exports = (App) => {
         const product = await _data.read('products', id);
         if (product) {
           // verify that at least one parameter is valid
-          if (name || cost || description || currency || urlImage) {
+          if (name || price || description || currency || urlImage) {
             // Count the affected fields
             let counter = 0;
             if (name && name !== product.name) {
               product.name = name;
               counter++;
             }
-            if (cost && cost !== product.cost) {
-              product.cost = cost;
+            if (price && price !== product.price) {
+              product.price = price;
               counter++;
             }
             if (currency && currency !== product.currency) {

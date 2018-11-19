@@ -217,11 +217,11 @@ module.exports = (App) => {
   App.post(`${main}/pay`, async (req, res) => {
     try {
       // validate the tokens in the headers
-      let { token, strp_token } = req.headers;
-      strp_token = typeof strp_token === 'string' && strp_token.trim() ?
-      strp_token.trim() : false;
+      let { token, strp_source } = req.headers;
+      strp_source = typeof strp_source === 'string' && strp_source.trim() ?
+      strp_source.trim() : false;
       const validToken = await Tokens.validateToken(token);
-      if (validToken && strp_token) {
+      if (validToken && strp_source) {
         // Get the username
         let { username } = req.queryString;
         // Verify if username a valid field
@@ -238,8 +238,8 @@ module.exports = (App) => {
             if (order) {
               let amount = 0;
               const description = 'Pizza delivery';
-              const source = strp_token;
-              order.items.map(x => {amount += x.product.cost * x.quantity});
+              const source = strp_source;
+              order.items.map(x => {amount += x.product.price * x.quantity});
               helpers.stripeChange(amount, 'usd', description, source, async (err, data) => {
                 if (!err && data) {
                   const historyDetails = {
@@ -252,7 +252,6 @@ module.exports = (App) => {
                   // delete the order
                   await _data.delete('orders', username);
                   helpers.mailgun(userData.email, 'Pizza delivery', 'Your order has been processed', (err, message, code) => {
-                    console.log({err, message, code});
                     res.status(200).send({ email: message });
                   });
                 } else {
@@ -272,7 +271,6 @@ module.exports = (App) => {
         res.status(401).send({Error: 'Not authorized. The token in the headers is missing or it is not valid' });
       }
     } catch(e) {
-      console.log(e);
       debug(e);
       res.status(500).send({ Error: 'Something went wrong' });      
     }
