@@ -25,7 +25,7 @@ These are some characteristics that I considered to make the project:
 #### Products
 | Route | Method | Required Data | Optional Data | Description |
 |--|--|--|--|--|
-| /products | GET | **headers**: token | none | Get all items |
+| /products | GET | **headers**: token, **queryString**: id | none | Get all items |
 | /product | GET | **headers**: token | none | Get a specified item by the id |
 | /product | POST | **headers**: token, **body**: name, price, description, currency, urlImage| none | Create a new item |
 | /product | PUT |  **headers**: token, **queryString**: id |  **body**: name, price, description, currency, urlImage | Update a specified item by the id |
