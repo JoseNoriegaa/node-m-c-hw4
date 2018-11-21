@@ -2,7 +2,7 @@
 
 This is the homework assignment 2 of the course "[Node JS masterClass](https://pirple.thinkific.com/courses/the-nodejs-master-class)".
 
-These are some characteristics that I considered to make the project:
+These are some features that I considered to make the project:
 - ECMAScript 6
 - Async/Await
 - [Airbnb JS Style Guide](https://github.com/airbnb/javascript)
@@ -25,11 +25,11 @@ These are some characteristics that I considered to make the project:
 #### Products
 | Route | Method | Required Data | Optional Data | Description |
 |--|--|--|--|--|
-| /products | GET | **headers**: token, **queryString**: id | none | Get all items |
+| /products | GET | **headers**: token; **queryString**: id | none | Get all items |
 | /product | GET | **headers**: token | none | Get a specified item by the id |
-| /product | POST | **headers**: token, **body**: name, price, description, currency, urlImage| none | Create a new item |
-| /product | PUT |  **headers**: token, **queryString**: id |  **body**: name, price, description, currency, urlImage | Update a specified item by the id |
-| /product | DELETE | **headers**: token, **queryString**: id | none | Delete a specified item by the id |
+| /product | POST | **headers**: token; **body**: name, price, description, currency, urlImage| none | Create a new item |
+| /product | PUT |  **headers**: token; **queryString**: id |  **body**: name, price, description, currency, urlImage | Update a specified item by the id |
+| /product | DELETE | **headers**: token; **queryString**: id | none | Delete a specified item by the id |
 
 #### Auth
 | Route | Method | Required Data | Optional Data | Description |
@@ -41,8 +41,8 @@ These are some characteristics that I considered to make the project:
 | Route | Method | Required Data | Optional Data | Description |
 |--|--|--|--|--|
 | /orders | GET | **headers**: token | none | Get all orders |
-| /order | GET | **headers**: token, **queryString**: username | none | Get all orders related to a user |
-| /order/item | POST | **headers**: token, **body**: username, productId, quantity | none | Add item to the order |
-| /order/item | DELETE | **headers**: token, **body**: username, productId | none | remove item to the order |
-| /order | DELETE | **headers**: token, **queryString**: username | none | Delete the order |
-| /order/pay | POST | **headers**: token, strp_source, **queryString**: username | none | Order payment |
+| /order | GET | **headers**: token; **queryString**: username | none | Get all orders related to a user |
+| /order/item | POST | **headers**: token; **body**: username, productId, quantity | none | Add item to the order |
+| /order/item | DELETE | **headers**: token; **body**: username, productId | none | remove item to the order |
+| /order | DELETE | **headers**: token; **queryString**: username | none | Delete the order |
+| /order/pay | POST | **headers**: token, strp_source; **queryString**: username | none | Order payment |
