@@ -4,9 +4,9 @@
 // Dependencies
 const QueryString = require('querystring');
 const crypto = require('crypto');
-const Config = require('../config');
 const Https = require('https');
 const { StringDecoder } = require('string_decoder');
+const Config = require('../config');
 
 const hashingSecret = process.env.SECRET_WORD_APP || 'secret token here';
 
@@ -14,20 +14,20 @@ const hashingSecret = process.env.SECRET_WORD_APP || 'secret token here';
 const helpers = {};
 
 /**
- * This function allows to send a email 
- * @param {String} email 
- * @param {String} subject 
- * @param {String} message 
- * @param {Function} cb 
+ * This function allows to send a email
+ * @param {String} email
+ * @param {String} subject
+ * @param {String} message
+ * @param {Function} cb
  */
 helpers.mailgun = (email, subject, message, cb) => {
   // Validate all parameters
-  email = typeof email === 'string' && helpers.isAnEmail(email.trim()) ?
-  email.trim() : false;
-  subject = typeof subject === 'string' && subject.trim().length > 0 ?
-  subject.trim() : false;
-  message = typeof message === 'string' && message.trim().length > 0 ?
-  message.trim() : false;
+  email = typeof email === 'string' && helpers.isAnEmail(email.trim())
+    ? email.trim() : false;
+  subject = typeof subject === 'string' && subject.trim().length > 0
+    ? subject.trim() : false;
+  message = typeof message === 'string' && message.trim().length > 0
+    ? message.trim() : false;
   if (email && subject && message) {
     // Payload details
     const payload = {
@@ -47,7 +47,7 @@ helpers.mailgun = (email, subject, message, cb) => {
       auth: `api:${Config.mailgun.apiKey}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(payloadStr)
+        'Content-Length': Buffer.byteLength(payloadStr),
       },
     };
     // Request
@@ -62,8 +62,7 @@ helpers.mailgun = (email, subject, message, cb) => {
       }
     });
     // Get errors
-    req.on('error',function(e){
-      console.log(e);
+    req.on('error', (e) => {
       cb(e, 'Could not send the email');
     });
     // Add the payload
@@ -71,35 +70,38 @@ helpers.mailgun = (email, subject, message, cb) => {
     // End the request
     req.end();
   } else {
-    callback(true, 'Missing required fields', 400);
+    cb(true, 'Missing required fields', 400);
   }
 };
 
 /**
  * Charge, Stripe API
- * @param {Number} amount 
- * @param {String} currency 
- * @param {String} description 
- * @param {String} source 
- * @param {Function} cb 
+ * @param {Number} amount
+ * @param {String} currency
+ * @param {String} description
+ * @param {String} source
+ * @param {Function} cb
  */
 helpers.stripeChange = (amount, currency, description, source, cb) => {
-	// Validate all parameters
-	var amount = typeof amount === 'number' && amount > 0 ? amount : false;
-	var currency = typeof currency === 'string' && currency.trim().length === 3 ? currency.trim().toLowerCase() : false;
-	var description = typeof description === 'string' && description.trim().length > 0 ? description.trim() : false;
-	var source = typeof source === 'string' && source.trim().length > 0 ? source.trim() : false;
-	if(amount && currency && description && source){
+  // Validate all parameters
+  amount = typeof amount === 'number' && amount > 0
+    ? amount : false;
+  currency = typeof currency === 'string' && currency.trim().length === 3
+    ? currency.trim().toLowerCase() : false;
+  description = typeof description === 'string' && description.trim().length > 0
+    ? description.trim() : false;
+  source = typeof source === 'string' && source.trim().length > 0
+    ? source.trim() : false;
+  if (amount && currency && description && source) {
     // Fix decimals
-    amount = amount * 100;
-		// Request payload
+    amount *= 100;
+    // Request payload
     const payload = {
       amount,
       currency,
       description,
       source,
     };
-    
     // Payload OBJ to string (urlencoded)
     const payloadStr = QueryString.stringify(payload);
     // Request details
@@ -111,7 +113,7 @@ helpers.stripeChange = (amount, currency, description, source, cb) => {
       path: '/v1/charges',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(payloadStr)
+        'Content-Length': Buffer.byteLength(payloadStr),
       },
     };
     // Request
@@ -119,33 +121,32 @@ helpers.stripeChange = (amount, currency, description, source, cb) => {
       // Get the request data
       const decoder = new StringDecoder('utf-8');
       let buffer = '';
-      res.on('data', function(data) {
+      res.on('data', (data) => {
         buffer += decoder.write(data);
       });
-      res.on('end', function() {
+      res.on('end', () => {
         buffer += decoder.end();
-        if (res.statusCode == 200 ) {
+        if (res.statusCode === 200) {
           const parsedData = helpers.parseJsonToObject(buffer);
           // Send the payment details
           cb(false, parsedData);
         } else {
-          console.log(res.statusCode);
           cb('the payment could not be processed');
         }
       });
     });
     // Get errors
     req.on('error', (e) => {
-      console.log('request errors', e);
+      cb(e);
     });
-    // Add the payload 
+    // Add the payload
     req.write(payloadStr);
     // End the request
     req.end();
-	} else {
-		cb('Missing required fields');
-	}
-}
+  } else {
+    cb('Missing required fields');
+  }
+};
 
 /**
  * This function convert the provided data to a Json Object if is possible,
@@ -181,8 +182,8 @@ helpers.parseUrlencodedToObject = (str) => {
  * @returns {String} Random string
  */
 helpers.createRandomString = (stringLenght) => {
-  stringLenght = typeof stringLenght === 'number' && stringLenght > 0 ?
-  stringLenght : false;
+  stringLenght = typeof stringLenght === 'number' && stringLenght > 0
+    ? stringLenght : false;
   if (stringLenght) {
     // Define all the posible caracteres that could go into the string
     const possibleCharacteres = 'abcdefghijkmnlopqrstuvwxyz0123456789';
@@ -190,32 +191,31 @@ helpers.createRandomString = (stringLenght) => {
     let str = '';
     for (let i = 0; i < stringLenght; i++) {
       // Get random character from the possibleCharacteres string
-      const randomChar = possibleCharacteres.charAt(Math.floor(Math.random() * possibleCharacteres.length));
+      const randomChar = possibleCharacteres
+        .charAt(Math.floor(Math.random() * possibleCharacteres.length));
       // Append this character to the final string
       str += randomChar;
     }
     // Return the final string
     return str;
-  } else {
-    return false;
   }
+  return false;
 };
 /**
  * this function creates an encrypted string from the provided string
  * @param {String} str String to be encrypted
- * @returns {String | Boolean} returns a hashed string if it is valid, if not is valid it returns false
+ * @returns {String | Boolean} returns a hashed string if it is valid, otherwise returns false
  */
 helpers.hash = (str) => {
   if (typeof str === 'string' && str.length > 0) {
     const hash = crypto.createHmac('sha256', hashingSecret).update(str).digest('hex');
     return hash;
-  } else {
-    return false;
   }
+  return false;
 };
 /**
  * This function validate if a string provided is a valid email
- * @param {String} email String that contains the Email to validate 
+ * @param {String} email String that contains the Email to validate
  * @returns {Boolean}
  */
 helpers.isAnEmail = (email) => {

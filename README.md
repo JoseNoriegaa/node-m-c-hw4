@@ -45,4 +45,4 @@ These are some features that I considered to make the project:
 | /order/item | POST | **headers**: token; **body**: username, productId, quantity | none | Add item to the order |
 | /order/item | DELETE | **headers**: token; **body**: username, productId | none | remove item to the order |
 | /order | DELETE | **headers**: token; **queryString**: username | none | Delete the order |
-| /order/pay | POST | **headers**: token, strp_source; **queryString**: username | none | Order payment |
+| /order/pay | POST | **headers**: token, stripeSource; **queryString**: username | none | Order payment |

@@ -37,8 +37,7 @@ env.prod = {
   },
 };
 // Get the current env
-const currentEnv = typeof process.env.NODE_ENV === 'string' ?  process.env.NODE_ENV.trim().toLowerCase() === 'prod' || process.env.NODE_ENV.trim().toLowerCase() === 'production' ?
-'prod' : 'dev' : 'dev';
-
+const currentEnv = process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === 'production'
+  ? 'prod' : 'dev';
 // Export the module
 module.exports = env[currentEnv];

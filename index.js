@@ -3,9 +3,10 @@
  */
 
 // Dependencies
-const Server = require('./lib/server');
 const fs = require('fs');
 const path = require('path');
+const Server = require('./lib/server');
+
 const App = Server(true, true); // HTTP and HTTPS are enabled
 
 // Routes

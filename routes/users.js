@@ -7,24 +7,25 @@
  * address
  */
 // Dependencies
-const _data = require('../lib/data');
-const helpers = require('../helpers');
 const util = require('util');
+const data = require('../lib/data');
+const helpers = require('../helpers');
+
 const debug = util.debuglog('users');
 const main = '/user';
 
 /**
  * Returns all routes related to the users
- * @param {Object} App Server instance 
+ * @param {Object} App Server instance
  */
 module.exports = (App) => {
   // Get all users
   App.get(`${main}s`, async (req, res) => {
     try {
-      const users = await _data.list('users', false);
+      const users = await data.list('users', false);
       if (users) {
         // remove the password
-        let response = users;
+        const response = users;
         for (let i = 0; i < response.length; i++) {
           delete response[i].password;
         }
@@ -34,7 +35,7 @@ module.exports = (App) => {
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({Error: 'Something went wrong'});
+      res.status(500).send({ Error: 'Something went wrong' });
     }
   });
   // Get a specified user by the username
@@ -42,71 +43,75 @@ module.exports = (App) => {
     try {
       // Get the username
       let { username } = req.queryString;
-      username = typeof username === 'string' && username.trim() ?
-      username.trim() : false;
+      username = typeof username === 'string' && username.trim()
+        ? username.trim() : false;
       if (username) {
-          const user = await _data.read('users', username);
+        const user = await data.read('users', username);
         if (user) {
-          let response = user;
+          const response = user;
           delete response.password;
           res.status(200).send(response);
         } else {
-          res.status(404).send({Error: 'Could not find the specified user'});
+          res.status(404).send({ Error: 'Could not find the specified user' });
         }
       } else {
-        res.status(400).send({Error: 'Missing required fields'});
+        res.status(400).send({ Error: 'Missing required fields' });
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({Error: 'Something went wrong'});
+      res.status(500).send({ Error: 'Something went wrong' });
     }
   });
   // Create a user
   App.post(`${main}`, async (req, res) => {
     try {
       // Get the user data
-      let { username, email, fullname, password, address } = req.body;
+      let {
+        username,
+        email,
+        fullname,
+        password,
+        address,
+      } = req.body;
       // Validate all parameters
-      username = typeof username === 'string' && username.trim() ?
-      username.trim() : false;
-      email = typeof email === 'string' && helpers.isAnEmail(email.trim()) ?
-      email.trim() : false;
-      fullname = typeof fullname === 'string' && fullname.trim() ? 
-      fullname.trim() : false;
-      password = typeof password === 'string' && password.trim() ?
-      password.trim() : false;
-      address = typeof address === 'string' && address.trim() ? 
-      address.trim() : false;
+      username = typeof username === 'string' && username.trim()
+        ? username.trim() : false;
+      email = typeof email === 'string' && helpers.isAnEmail(email.trim())
+        ? email.trim() : false;
+      fullname = typeof fullname === 'string' && fullname.trim()
+        ? fullname.trim() : false;
+      password = typeof password === 'string' && password.trim()
+        ? password.trim() : false;
+      address = typeof address === 'string' && address.trim()
+        ? address.trim() : false;
       if (username && email && fullname && password && address) {
-        const password_hash = helpers.hash(password);
+        const passwordHash = helpers.hash(password);
         const user = {
           username,
           email,
           fullname,
-          password: password_hash,
+          password: passwordHash,
           address,
         };
         // create the user
-        const op = await _data.create('users', user.username, user);
+        const op = await data.create('users', user.username, user);
         res.status(201).send({ operationSuccess: op });
+      } else if (!username) {
+        res.status(400).send({ Error: 'There are missing or invalid fields, please provide a valid username' });
+      } else if (!email) {
+        res.status(400).send({ Error: 'There are missing or invalid fields, please provide a valid email' });
+      } else if (!fullname) {
+        res.status(400).send({ Error: 'There are missing or invalid fields, please provide the "fullname"' });
+      } else if (!password) {
+        res.status(400).send({ Error: 'There are missing or invalid fields, please provide a password' });
+      } else if (!address) {
+        res.status(400).send({ Error: 'There are missing or invalid fields, please provide a valid address' });
       } else {
-        if (!username) {
-          res.status(400).send({Error: 'There are missing or invalid fields, please provide a valid username'});
-        } else if (!email) {
-          res.status(400).send({Error: 'There are missing or invalid fields, please provide a valid email'});
-        }  else if (!fullname) {
-          res.status(400).send({Error: 'There are missing or invalid fields, please provide the "fullname"'});
-        } else if (!password) {
-          res.status(400).send({Error: 'There are missing or invalid fields, please provide a password'});
-        } else if (!address) {
-          res.status(400).send({Error: 'There are missing or invalid fields, please provide a valid address'});
-        } else {
-          res.status(400).send({Error: 'There are missing or invalid fields'});
-        }
+        res.status(400).send({ Error: 'There are missing or invalid fields' });
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({Error: 'Something went wrong'});
+      res.status(500).send({ Error: 'Something went wrong' });
     }
   });
   // Update a specified user by the username
@@ -114,22 +119,27 @@ module.exports = (App) => {
     try {
       // Get the user data
       let { username } = req.queryString;
-      username = typeof username === 'string' && username.trim() ?
-      username.trim() : false;
-      let { email, fullname, password, address } = req.body;
+      username = typeof username === 'string' && username.trim()
+        ? username.trim() : false;
+      let {
+        email,
+        fullname,
+        password,
+        address,
+      } = req.body;
       // Validate all parameters
-      username = typeof username === 'string' && username.trim() ?
-      username.trim() : false;
-      email = typeof email === 'string' && helpers.isAnEmail(email.trim()) ?
-      email.trim() : false;
-      fullname = typeof fullname === 'string' && fullname.trim() ? 
-      fullname.trim() : false;
-      password = typeof password === 'string' && password.trim() ?
-      password.trim() : false;
-      address = typeof address === 'string' && address.trim() ? 
-      address.trim() : false;
+      username = typeof username === 'string' && username.trim()
+        ? username.trim() : false;
+      email = typeof email === 'string' && helpers.isAnEmail(email.trim())
+        ? email.trim() : false;
+      fullname = typeof fullname === 'string' && fullname.trim()
+        ? fullname.trim() : false;
+      password = typeof password === 'string' && password.trim()
+        ? password.trim() : false;
+      address = typeof address === 'string' && address.trim()
+        ? address.trim() : false;
       // Get the current user data object
-      const user = await _data.read('users', username);
+      const user = await data.read('users', username);
       if (user) {
         // verify that at least one parameter is valid
         if (email || fullname || password || address) {
@@ -152,17 +162,17 @@ module.exports = (App) => {
             counter++;
           }
           // Store the new user data
-          const op = await _data.update('users', username, user);
+          const op = await data.update('users', username, user);
           res.status(200).send({ operationSuccess: op, affectedFields: counter });
         } else {
-          res.status(400).send({Error: 'There are not fields to update'});
-        }     
+          res.status(400).send({ Error: 'There are not fields to update' });
+        }
       } else {
-        res.status(400).send({Error: 'Could not find the specified user'});
+        res.status(400).send({ Error: 'Could not find the specified user' });
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({Error: 'Something went wrong'});      
+      res.status(500).send({ Error: 'Something went wrong' });
     }
   });
   // Delete a specified user by the username
@@ -171,18 +181,18 @@ module.exports = (App) => {
       // Get the username
       let { username } = req.queryString;
       // Verify if username is a valid fieldç
-      username = typeof username === 'string' && username.trim() ?
-      username.trim() : false;
+      username = typeof username === 'string' && username.trim()
+        ? username.trim() : false;
       if (username) {
         // delete the user
-        const op = await _data.delete('users', username);
+        const op = await data.delete('users', username);
         res.status(200).send({ operationSuccess: op });
       } else {
-        res.status(400).send({Error: 'Missing required fields, please provide the username'});
+        res.status(400).send({ Error: 'Missing required fields, please provide the username' });
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({Error: 'Something went wrong'});
+      res.status(500).send({ Error: 'Something went wrong' });
     }
   });
 };
