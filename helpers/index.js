@@ -9,6 +9,7 @@ const { StringDecoder } = require('string_decoder');
 const Config = require('../config');
 
 const hashingSecret = process.env.SECRET_WORD_APP || 'secret token here';
+const MIMETypes = require('./mimeTypes.json');
 
 // Container for the module
 const helpers = {};
@@ -225,4 +226,31 @@ helpers.isAnEmail = (email) => {
   }
   return false;
 };
+/**
+ * this function returns the mimeType of a specific file by the extension
+ * @param {String} fileName filename, example: 'index.html'
+ */
+helpers.getMimeType = (fileName) => {
+  // Validate parameters
+  fileName = typeof fileName === 'string' && fileName.indexOf('.') > -1
+    ? fileName : false;
+  // Check up if the filename is valid
+  if (fileName) {
+    // Get the ext
+    const ext = fileName.slice(fileName.lastIndexOf('.') + 1);
+    // Get the all valid MIME Types
+    const keys = Object.keys(MIMETypes);
+    // Looking for the correct mime-type for the extension,
+    // if it is found, the mime-type will be returned,
+    // otherwise it will return text/html
+    for (let i = 0; i < keys.length; i++) {
+      const mime = MIMETypes[keys[i]];
+      if (mime.indexOf(ext) > -1) {
+        return keys[i];
+      }
+    }
+  }
+  return 'text/html';
+};
+
 module.exports = helpers;

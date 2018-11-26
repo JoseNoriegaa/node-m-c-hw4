@@ -12,7 +12,7 @@ const data = require('../lib/data');
 const helpers = require('../helpers');
 
 const debug = util.debuglog('users');
-const main = '/user';
+const main = '/api/user';
 
 /**
  * Returns all routes related to the users

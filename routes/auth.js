@@ -5,7 +5,7 @@ const data = require('../lib/data');
 const Tokens = require('../tokens');
 
 const debug = util.debuglog('auth');
-const main = '/auth';
+const main = '/api/auth';
 
 /**
  * Returns all routes related to authentification

@@ -9,6 +9,9 @@ const Server = require('./lib/server');
 
 const App = Server(true, true); // HTTP and HTTPS are enabled
 
+// static content directory
+App.static(path.join(__dirname, '/Public/'), '/');
+
 // Routes
 const routePath = path.join(__dirname, 'routes');
 fs.readdirSync(routePath).forEach((file) => {
