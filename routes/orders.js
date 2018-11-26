@@ -11,7 +11,7 @@ const helpers = require('../helpers');
 const Tokens = require('../tokens');
 
 const debug = Util.debuglog('orders');
-const main = '/order';
+const main = '/api/order';
 
 /**
  * Returns all related functions to the orders

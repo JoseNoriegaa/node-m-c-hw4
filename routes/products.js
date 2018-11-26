@@ -14,7 +14,7 @@ const helpers = require('../helpers');
 const Tokens = require('../tokens');
 
 const debug = util.debuglog('products');
-const main = '/product';
+const main = '/api/product';
 
 /**
  * Returns all functions related to the products
