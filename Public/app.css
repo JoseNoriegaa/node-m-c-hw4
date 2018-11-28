@@ -1,0 +1,267 @@
+/* Resets */
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div,
+span,
+header,
+footer,
+img,
+a,
+a:hover,
+a:active,
+a:visited,
+table,
+tr,
+td,
+th,
+form,
+input,
+button,
+select,
+textarea {
+  line-height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  text-decoration: none;
+  color: #1a1a1a;
+  border-width: 0;
+}
+
+body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.clear {
+  float: none;
+  width: 100%;
+  height: 1px;
+}
+
+/* Header */
+.header {
+  background-color: #fff;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #fff;
+  box-shadow: 0 -25px 11px 20px #000;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.header>.logo {
+  margin: 20px 0px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header>.logo>.img {
+  background-image: url(./pizza.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 60px;
+  width: 60px;
+}
+
+.header>.logo>.brand {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.header>.navigation {
+  position: absolute;
+  right: 20px;
+  width: auto;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header>.navigation a {
+  margin: 0 10px;
+  font-size: 16px;
+  font-weight: 400;
+  color: black;
+}
+
+.header>.navigation a:hover {
+  color: blue;
+}
+
+.header>.navigation a.active {
+  color: blue;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.footer {
+  width: 100%;
+  background-color: #217844;
+  padding: 50px 0;
+  text-align: center;
+  border-width: 1px 0 0 0;
+  border-color: #fff;
+  border-style: solid;
+}
+
+.footer .copyright {
+  color: #fff;
+  font-size: 10px;
+}
+
+#menuToggle {
+  display: block;
+  position: relative;
+  /* top: 50px;
+  left: 50px; */
+  z-index: 1;
+  -webkit-user-select: none;
+  user-select: none;
+  height: 100%;
+}
+
+#menuToggle input {
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+
+  cursor: pointer;
+
+  opacity: 0;
+  /* hide this */
+  z-index: 2;
+  /* and place it over the hamburger */
+
+  -webkit-touch-callout: none;
+}
+
+/*
+ * Just a quick hamburger
+ * https://codepen.io/erikterwan/pen/EVzeRP
+ */
+.menuToggleContainer {
+  display: none;
+}
+#menuToggle span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+  background: #cdcdcd;
+  border-radius: 3px;
+  z-index: 1;
+  transform-origin: 4px 0px;
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+    opacity 0.55s ease;
+}
+
+#menuToggle span:first-child {
+  transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+/* 
+ * Transform all the slices of hamburger
+ * into a crossmark.
+ */
+#menuToggle input:checked~span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: #232323;
+}
+
+/*
+ * But let's hide the middle one.
+ */
+#menuToggle input:checked~span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/*
+ * Ohyeah and the last one should go the other direction
+ */
+#menuToggle input:checked~span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+/*
+ * Make this absolute positioned
+ * at the top left of the screen
+ */
+#menu {
+  position: fixed;
+  width: 150px;
+  margin: -100px 0 0 -150px;
+  padding: 50px;
+  padding-top: 125px;
+  height: 100%;
+
+  background: #ededed;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  /* to stop flickering of text in safari */
+
+  transform-origin: 0% 0%;
+  transform: translate(100%, 0);
+  /* transform: none; */
+
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+}
+
+#menu li {
+  padding: 10px 0;
+  font-size: 22px;
+}
+
+/*
+ * And let's slide it in from the left
+ */
+#menuToggle input:checked~ul {
+  transform: none;
+}
+
+@media only screen and (max-width: 705px) {
+  .menuToggleContainer {
+    display: block;
+  }
+  .navigation > .menu {
+    display: none;
+  }
+}

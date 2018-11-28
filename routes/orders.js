@@ -242,7 +242,7 @@ module.exports = (App) => {
               const source = stripeSource;
               const amount = order.items
                 .reduce((prev, x) => prev + (x.product.price * x.quantity), 0);
-              helpers.stripeChange(amount, 'usd', description, source, async (paymentErr, paymentDetails) => {
+              helpers.stripeCharge(amount, 'usd', description, source, async (paymentErr, paymentDetails) => {
                 if (!paymentErr && paymentDetails) {
                   const historyDetails = {
                     id: `${username}_${Date.now()}`,

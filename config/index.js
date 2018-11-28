@@ -19,6 +19,12 @@ env.dev = {
     apiKey: process.env.MAILGUN_API_KEY,
     sender: process.env.MAINGUN_SENDER,
   },
+  templateGlobals: {
+    appName: 'UptimeChecker',
+    companyName: 'NotARealCompany, Inc.',
+    yearCreated: '2018',
+    baseUrl: 'http://localhost:3000/',
+  },
 };
 // Prod env config
 env.prod = {

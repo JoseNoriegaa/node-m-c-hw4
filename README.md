@@ -14,6 +14,7 @@ These are some features that I considered to make the project:
 - Implementation of notifications by email with [Mailgun API](https://documentation.mailgun.com/en/latest/api_reference.html)
 - No [NPM](https://docs.npmjs.com/about-npm/) or third-party dependencies
 - Static content support
+- Html templates
 
 # Backend
 ## Routes 

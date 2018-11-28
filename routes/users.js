@@ -195,4 +195,40 @@ module.exports = (App) => {
       res.status(500).send({ Error: 'Something went wrong' });
     }
   });
+  // TODO: Create a stripe token with credit card
+  App.post(`${main}/stripe/token`, async (req, res) => {
+    try {
+      // Get the username
+      const { username } = req.queryString;
+      // Get credit card info
+      const { number, expMonth, expYear, cvc } = req.body;
+      // validate the token in the headers
+      const { token } = req.headers;
+      const validToken = await Tokens.validateToken(token);
+      if (validToken) {
+        const userData = await Tokens.getToken(token);
+        if (userData.user === username) {
+          if (number && expMonth && expYear && cvc) {
+            helpers.stripeToken(number, expMonth, expYear, cvc, (err, data) => {
+              console.log({data, err});
+              if (data && !err) {
+                // Something
+              } else {
+                res.status(500).send({ Error: 'Something went wrong' });
+              }
+            });
+          } else {
+            res.status(400).send({ Error: 'Missing required fields' });
+          }
+        } else {
+          res.status(400).send({ Error: 'Missing required fields, please provide the username' });
+        }
+      } else {
+        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+      }
+    } catch (error) {
+      debug(error);
+      res.status(500).send({ Error: 'Something went wrong' });
+    }
+  });
 };

@@ -1,0 +1,161 @@
+/**
+* Login styles
+*/
+
+/* Form Styling for Account Creation page and others */
+.formWrapper{
+  margin: 0 auto;
+  max-width: 500px;
+  min-width: 300px;
+  padding: 15px;
+  position: relative;
+}
+
+.formError{
+  display: none;
+  background-color: #c83737;
+  font-style: italic;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin: 0 0 15px 0;
+  text-align: center;
+  border-color: #d87070;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.formSuccess{
+  display: none;
+  background-color: #217844;
+  font-style: italic;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin: 0 0 15px 0;
+  text-align: center;
+  border-color: #35c06d;
+  border-width: 2px;
+  border-style: solid;
+}
+input,select,option {
+  border-width: 1px;
+  border-radius: 2px;
+  padding: 7px 1%;
+  width: 100%;
+}
+
+.checkboxGroup input{
+  display: inline-block;
+  width: initial;
+  margin: 20px;
+}
+
+input.disabled{
+  background-color: #efefef;
+}
+
+.inputWrapper{
+  padding: 0 0 20px 0;
+}
+
+.inputLabel{
+  padding: 0 0 5px 0;
+  color: #808080;
+}
+.button {
+  background-color: #217844;
+  color: white;
+  font-size: 16;
+  font-weight: 400;
+  padding: 10px 25px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.button:disabled {
+  background-color: #11844c !important;
+  color: white !important;
+  border: 2px solid transparent !important;
+  font-weight: 400 !important;
+  padding: 10px 25px !important;
+}
+.button:hover {
+  border: 2px solid #217844;
+  background-color: transparent;
+  color: #217844;
+  font-weight: bold;
+  padding: 10px 23px;
+}
+.formDecoration {
+  width: 100%;
+  background: #217844;
+  height: 4px;
+}
+
+.formWrapper > .logoContainer {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formWrapper > .logoContainer > .logo {
+  position: relative;
+  height: 120px;
+  width: 120px;
+}
+
+.formWrapper > .logoContainer > .logo > .img {
+  height: 100%;
+  width: 100%;  background-image: url(./pizza.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.spinner {
+  display: none;
+  width: auto;
+  height: auto;
+  margin-right: 5px;
+}
+.spinner.active {
+  display: inline-block !important;
+}
+.spinner::after {
+  content: " ";
+  display: block;
+  margin: 1px;
+  border-radius: 50%;
+  animation: spinner 1.2s linear infinite;
+}
+.spinner.dark::after {
+  border: 1px solid #000;
+  border-color: #000 transparent #000 transparent;
+}
+.spinner.ligth::after {
+  border: 1px solid #fff;
+  border-color: #fff transparent #fff transparent;
+}
+.spinner.small::after {
+  width: 10px;
+  height: 10px;
+}
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.errorText {
+  color: red;
+  padding: 5px 0px;
+  font-style: italic;
+}

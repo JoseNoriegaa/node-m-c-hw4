@@ -1,11 +1,13 @@
 /**
- * Filer for helpers
+ * File for helpers
  */
 // Dependencies
 const QueryString = require('querystring');
 const crypto = require('crypto');
 const Https = require('https');
 const { StringDecoder } = require('string_decoder');
+const path = require('path');
+const fs = require('fs');
 const Config = require('../config');
 
 const hashingSecret = process.env.SECRET_WORD_APP || 'secret token here';
@@ -76,6 +78,76 @@ helpers.mailgun = (email, subject, message, cb) => {
 };
 
 /**
+ * function to create a stripe token
+ * @param {String} number
+ * @param {String} exp_month 
+ * @param {String} exp_year 
+ * @param {String} cvc 
+ * @param {String} cb
+ * @returns {Function} Callback(error, data)
+ */
+helpers.stripeToken = (number, exp_month, exp_year, cvc, cb) => {
+  // Validate all parameters
+  number = typeof number === 'string' && number.trim() ? number.trim() : false;
+  exp_month = typeof exp_month === 'string' && exp_month.trim() ? exp_month.trim() : false;
+  exp_year = typeof exp_year === 'string' && exp_year.trim() ? exp_year.trim() : false;
+  cvc = typeof cvc === 'string' && cvc.trim() ? cvc.trim() : false;
+  cb = typeof cb === 'string' && cb.trim() ? cb.trim() : false;
+  if (number && exp_month && exp_year && cvc && cb) {
+    // Request payload
+    const payload = QueryString.stringify({
+      'card[number]' : number,
+      'card[exp_month]' : exp_month,
+      'card[exp_year]' : exp_year,
+      'card[cvc]' : cvc
+    });
+    // Payload OBJ to string (urlencoded)
+    const payloadStr = QueryString.stringify(payload);
+    // Request details
+    const requestDetails = {
+      protocol: 'https:',
+      hostname: Config.stripe.hostname,
+      method: 'POST',
+      auth: Config.stripe.secretKey,
+      path: '/v1/tokens',
+      headers : {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(payloadStr),
+      },
+    };
+    // Request
+    const req = Https.request(requestDetails, (res) => {
+      // Get the request data
+      const decoder = new StringDecoder('utf-8');
+      let buffer = '';
+      res.on('data', (data) => {
+        buffer += decoder.write(data);
+      });
+      res.on('end', () => {
+        buffer += decoder.end();
+        if (res.statusCode === 200) {
+          const parsedData = helpers.parseJsonToObject(buffer);
+          // Send the payment details
+          cb(false, parsedData);
+        } else {
+          cb('the payment could not be processed');
+        }
+      });
+    });
+    // Get errors
+    req.on('error', (e) => {
+      cb(e);
+    });
+    // Add the payload
+    req.write(payloadStr);
+    // End the request
+    req.end(); 
+  } else {
+    cb('Missing required fields');
+  }
+};
+
+/**
  * Charge, Stripe API
  * @param {Number} amount
  * @param {String} currency
@@ -83,7 +155,7 @@ helpers.mailgun = (email, subject, message, cb) => {
  * @param {String} source
  * @param {Function} cb
  */
-helpers.stripeChange = (amount, currency, description, source, cb) => {
+helpers.stripeCharge = (amount, currency, description, source, cb) => {
   // Validate all parameters
   amount = typeof amount === 'number' && amount > 0
     ? amount : false;
@@ -251,6 +323,86 @@ helpers.getMimeType = (fileName) => {
     }
   }
   return 'text/html';
+};
+
+/**
+ * Get the string content of a template
+ * @param {String} templateName
+ * @param {String} data
+ * @param {Function} cb callback(err, data)
+ */
+helpers.getTemplate = (templateName, data, cb) => {
+  templateName = typeof templateName === 'string' && templateName.length > 0 ?
+  templateName : false;
+  data = typeof data === 'object' && !!data ? data : {};
+  if (templateName) {
+    const templateDir = path.join(__dirname, '/../templates/');
+    fs.readFile(templateDir + templateName + '.html', 'utf-8', (err, str) => {
+      if (!err && str && str.length > 0) {
+        // Do interpolation on the string
+        const finalString = helpers.interpolate(str, data);
+        cb(false, finalString);
+      } else {
+        cb('No template could be found');
+      }
+    });
+  } else {
+    cb('A valid template name was not specified');
+  }
+};
+
+/**
+ * Add the universal header and footer to a string,
+ * and pass provided data object to the header and footer for interpolation
+ * @param {String} str
+ * @param {String} data
+ * @param {Function} cb callback(err, data)
+ */
+helpers.addUniversalTemplates = (str, data, cb) => {
+  str = typeof str === 'string' && str.length > 0 ? str : '';
+  data = typeof data === 'object' && !!data ? data : {};
+  // Get the header
+  helpers.getTemplate('_header', data, (err, headerString) => {
+    if (!err && headerString) {
+      // Get the footer
+      helpers.getTemplate('_footer', data, (err, footerString) => {
+        if (!err && footerString) {
+          // Add them all together
+          const fullString = `${headerString}${str}${footerString}`;
+          cb(false, fullString);
+        } else {
+          cb('Could not find the footer template');
+        }
+      });
+    } else {
+      cb('Could not find the header template');
+    }
+  });
+}
+/**
+ * Take a given string and a data object and find/replace all the keys within it
+ * @param {String} str
+ * @param {String} data
+ * @returns {String}
+ */
+helpers.interpolate = (str, data) => {
+  str = typeof str === 'string' && str.length > 0 ? str : '';
+  data = typeof data === 'object' && !!data ? data : {};
+  // Add the templateGlobals do the data object, prepending their key name with "global"
+  for (const keyName in Config.templateGlobals) {
+    if (Config.templateGlobals.hasOwnProperty(keyName)) {
+      data[`global.${keyName}`] = Config.templateGlobals[keyName];
+    }
+  }
+  // for each key in the data object, insert its value into the string at the corresponding placeholder
+  for (const key in data) {
+    if (data.hasOwnProperty(key) && typeof data[key] === 'string') {
+      let replace = data[key];
+      const find = `{${key}}`;
+      str = str.replace(find, replace);
+    }
+  }
+  return str;
 };
 
 module.exports = helpers;

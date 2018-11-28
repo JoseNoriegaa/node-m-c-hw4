@@ -1,0 +1,40 @@
+<div class="content">
+  <div class="formWrapper">
+    <div class="logoContainer">
+      <div class="logo">
+        <div class="img"></div>
+      </div>
+    </div>
+    <form id="sessionCreate" onsubmit="event.preventDefault();return loginHandler();">
+      <div class="formError"></div>
+      <div class="inputWrapper">
+        <div class="inputLabel">Username</div>
+        <input id="usernameInput" type="text" name="username" placeholder="Please enter a username" />
+        <p id="usernameError" style="display: none" class="errorText">
+        </p>
+      </div>
+      <div class="inputWrapper">
+        <div class="inputLabel">Password</div>
+        <input id="passwordInput" type="password" name="password" placeholder="*********"/>
+        <p id="passwordError" style="display: none" class="errorText">
+        </p>
+      </div>
+      <div class="inputWrapper ctaWrapper">
+        <button id="loginBtn" type="submit" class="button">
+          <div id="spinner" class="spinner small ligth"></div>
+          Login
+        </button>
+      </div>
+    </form>
+    <div class="formDecoration">
+    </div>
+    <br>
+    <div style="width:100%;display:flex;justify-content:center;">
+      Don't have an account?
+      <br>
+      <a href="/"> Sign up</a>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" type="text/css" media="screen" href="/login.css" />
+<script src="./login.js"></script>

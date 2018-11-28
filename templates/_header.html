@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <base href="http://localhost:3000" />
+  <title>{head.title} | {global.appName}</title>
+  <meta name="description" content="{head.description}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/pizza.png">
+  <link rel="stylesheet" type="text/css" media="screen" href="/app.css" />
+  <script src="/app.js"></script>
+</head>
+<body>
+  <header class="header">
+    <!-- Logo -->
+    <a class="logo" href="/">
+      <div class="img"></div>
+      <div class="brand">
+        Pizza
+        <br/>
+        Delivery
+      </div>
+    </a>
+    <!-- Navigation -->
+    <div class="navigation">
+      <div class="menu">
+        <a href="/">Home</a>
+        <a href="/signup">Signup</a>
+        <a href="/login">Login</a>
+        <a href="/profile">Profile</a>
+        <a href="/pay">Pay</a>
+        <a href="#" id="logoutButton">Logout</a>
+      </div>
+      <div class="menuToggleContainer">
+        <div id="menuToggle">
+          <input type="checkbox" />
+          <span></span>
+          <span></span>
+          <span></span>
+          <ul id="menu">
+            <a href="/">Home</a>
+            <a href="/signup">Signup</a>
+            <a href="/login">Login</a>
+            <a href="/profile">Profile</a>
+            <a href="/pay">Pay</a>
+            <a href="#" id="logoutButton">Logout</a>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
