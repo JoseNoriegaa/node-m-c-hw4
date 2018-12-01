@@ -8,8 +8,8 @@
   <meta name="description" content="{head.description}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="/pizza.png">
-  <link rel="stylesheet" type="text/css" media="screen" href="/app.css" />
-  <script src="/app.js"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="/styles/app.css" />
+  <script src="/scripts/app.js"></script>
 </head>
 <body>
   <header class="header">
@@ -26,11 +26,11 @@
     <div class="navigation">
       <div class="menu">
         <a href="/">Home</a>
-        <a href="/signup">Signup</a>
-        <a href="/login">Login</a>
-        <a href="/profile">Profile</a>
-        <a href="/pay">Pay</a>
-        <a href="#" id="logoutButton">Logout</a>
+        <a style="display: none" class="loggedOut" href="/signup">Sign Up</a>
+        <a style="display: none" class="loggedOut" href="/login">Login</a>
+        <a style="display: none" class="loggedIn" href="/profile">Profile</a>
+        <a style="display: none" class="loggedIn" href="/order">Order <div id="badge" class="badge" style="display: none"></div></a>
+        <a style="display: none" class="loggedIn" href="#" id="logoutButton">Log Out</a>
       </div>
       <div class="menuToggleContainer">
         <div id="menuToggle">
@@ -39,12 +39,24 @@
           <span></span>
           <span></span>
           <ul id="menu">
-            <a href="/">Home</a>
-            <a href="/signup">Signup</a>
-            <a href="/login">Login</a>
-            <a href="/profile">Profile</a>
-            <a href="/pay">Pay</a>
-            <a href="#" id="logoutButton">Logout</a>
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li style="display: none" class="loggedOutMobile" >
+              <a href="/signup">Sign Up</a>
+            </li>
+            <li style="display: none" class="loggedOutMobile" >
+              <a href="/login">Login</a>
+            </li>
+            <li style="display: none" class="loggedInMobile">
+              <a href="/profile">Profile</a>
+            </li>
+            <li style="display: none" class="loggedInMobile">
+              <a href="/order">Order <div id="badge" class="badge" style="display: none"></div></a>
+            </li>
+            <li style="display: none" class="loggedInMobile">
+              <a href="#" id="logoutButton">Log Out</a>
+            </li>
           </ul>
         </div>
       </div>

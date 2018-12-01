@@ -95,12 +95,12 @@ module.exports = (App) => {
       }
     });
   });
-  App.get('/pay', (req, res) => {
+  App.get('/order', (req, res) => {
     // Prepare data for interpolation
     const templateData = {
-      'head.title': 'Pay',
+      'head.title': 'Order',
     };
-    helpers.getTemplate('pay', templateData, (err, str) => {
+    helpers.getTemplate('order', templateData, (err, str) => {
       if (!err && str) {
         // Add the universal header and footer
         helpers.addUniversalTemplates(str, templateData, (err, str) => {

@@ -156,7 +156,7 @@ module.exports = (App) => {
             // Check if the order already exist, if not exist create a new one
             const order = await data.read('orders', username);
             if (order) {
-              order.items = order.items.filter(x => x.id === productId);
+              order.items = order.items.filter(x => x.product.id != productId);
               if (order.items.length > 0) {
                 await data.update('orders', username, order);
                 res.status(200).send(order);

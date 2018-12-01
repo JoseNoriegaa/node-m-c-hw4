@@ -7,14 +7,15 @@ class AppConfig {
     };
     this.load();
   }
-  load() {
+  async load() {
     try {
       const authSession = window.sessionStorage.getItem('auth');
       if (authSession) {
         Object.assign(this.state, { auth: JSON.parse(authSession) });
+        await this.getOrder();
       }
     } catch (error) {
-      console.log({error});
+      console.error({error});
     }
   }
   async login(username, password) {
@@ -37,6 +38,7 @@ class AppConfig {
           const data = await response.json();
           const { token } = data;
           if (token) {
+            this.setLoggedInClass(true);
             // store the token
             window.sessionStorage.setItem('auth', JSON.stringify(token));
             return Object.assign(this.state, { auth: token });
@@ -57,7 +59,6 @@ class AppConfig {
   async logout() {
     try {
       const { id } = this.state.auth;
-      console.log('entro', this.state);
       if (id) {
         const headers = {
           'content-type': 'application/json',
@@ -73,6 +74,7 @@ class AppConfig {
           const data = await response.json();
           const { operationSuccess } = data;
           if (operationSuccess) {
+            this.setLoggedInClass(false);
             window.sessionStorage.removeItem('auth');
             this.state.auth = {};
           }
@@ -89,14 +91,10 @@ class AppConfig {
   }
   async getProducts() {
     try {
-      // token id
-      const { id } = this.state.auth;
-      if (id) {
         const url = '/api/products';
         const method = 'GET';
         const headers = {
           'content-type': 'application/json',
-          'token': id,
         };
         const config = {
           method,
@@ -104,14 +102,21 @@ class AppConfig {
         };
         const response = await fetch(url, config);
         if (response) {
+          if (response.status === 401) {
+            const logout = await this.logout();
+            if (logout) {
+              window.location = '/login';
+            } else {
+              window.sessionStorage.removeItem('auth');
+            }
+            return false;
+          }
           const data = await response.json();
-          this.state.products = data;
-        } else {
-          return false
-        }
-      } else {
-        return false;
-      }
+          // this.state.products = data;
+          return Object.assign(this.state, { products: data });
+        } 
+        return false
+
     } catch (error) {
       console.error('getProducts', {error});
       return false;
@@ -135,6 +140,15 @@ class AppConfig {
         };
         const response = await fetch(url, config);
         if (response) {
+          if (response.status === 401) {
+            const logout = await this.logout();
+            if (logout) {
+              window.location = '/login';
+            } else {
+              window.sessionStorage.removeItem('auth');
+            }
+            return false;
+          }
           const data = await response.json();
           return data;
         } else {
@@ -172,8 +186,18 @@ class AppConfig {
         };
         const response = await fetch(url, config);
         if (response) {
+          if (response.status === 401) {
+            const logout = await this.logout();
+            if (logout) {
+              window.location = '/login';
+            } else {
+              window.sessionStorage.removeItem('auth');
+            }
+            return false;
+          }
           const data = await response.json();
           if (data && !data.Error) {
+            this._setBadge(data.items.length);
             return Object.assign(this.state, { order: data });
           } else {
             return false;
@@ -203,10 +227,20 @@ class AppConfig {
           method,
         };
         const response = await fetch(url, config);
-        if (response) {
+        if (response) {          
+          if (response.status === 401) {
+            const logout = await this.logout();
+            if (logout) {
+              window.location = '/login';
+            } else {
+              window.sessionStorage.removeItem('auth');
+            }
+            return false;
+          }
           const data = await response.json();
           if (data && !data.Error) {
-            return data;            
+            this._setBadge(data.items.length);
+            return Object.assign(this.state, { order: data });            
           } else {
             return false;
           }
@@ -236,7 +270,7 @@ class AppConfig {
         const body = {
           username: user,
           productId,
-        }
+        };
         const config = {
           method,
           headers,
@@ -244,8 +278,21 @@ class AppConfig {
         };
         const response = await fetch(url, config);
         if (response) {
-          const data = await response.json();
-          return data;
+          if (response.status === 401) {
+            const logout = await this.logout();
+            if (logout) {
+              window.location = '/login';
+            } else {
+              window.sessionStorage.removeItem('auth');
+            }
+            return false;
+          }
+          const data = response.status === 204 ? true : await response.json();
+          if (data) {
+            return data;
+          } else {
+            return false;
+          }
         } else {
           return false;
         }
@@ -273,6 +320,15 @@ class AppConfig {
         };
         const response = await fetch(url, config);
         if (response) {
+          if (response.status === 401) {
+            const logout = await this.logout();
+            if (logout) {
+              window.location = '/login';
+            } else {
+              window.sessionStorage.removeItem('auth');
+            }
+            return false;
+          }
           const data = await response.json();
           if (data && !data.Error) {
             return data;            
@@ -306,6 +362,15 @@ class AppConfig {
         };
         const response = await fetch(url, config);
         if (response) {
+          if (response.status === 401) {
+            const logout = await this.logout();
+            if (logout) {
+              window.location = '/login';
+            } else {
+              window.sessionStorage.removeItem('auth');
+            }
+            return false;
+          }
           const data = await response.json();
           return data;
         } else {
@@ -338,12 +403,12 @@ class AppConfig {
         const config = {
           method,
           headers,
-          body,
+          body: JSON.stringify(body),
         };
         const response = await fetch(url, config);
         if (response) {
           const data = await response.json();
-          return data;
+          return response.status === 200 ? data : false;
         } else {
           return false;
         }
@@ -371,6 +436,15 @@ class AppConfig {
         };
         const response = await fetch(url, config);
         if (response) {
+          if (response.status === 401) {
+            const logout = await this.logout();
+            if (logout) {
+              window.location = '/login';
+            } else {
+              window.sessionStorage.removeItem('auth');
+            }
+            return false;
+          }
           const data = await response.json();
           const { Error } = data;
           if (!Error) {
@@ -388,9 +462,76 @@ class AppConfig {
       return false;
     }
   }
+  setLoggedInClass(){
+    const elementsLogout = document.getElementsByClassName('loggedOut');
+    const elementsLogin = document.getElementsByClassName('loggedIn');
+    
+    const elementsLogoutM = document.getElementsByClassName('loggedOutMobile');
+    const elementsLoginM = document.getElementsByClassName('loggedInMobile');
+
+    if (this.state.auth.id) {
+      for (let i = 0; i < elementsLogin.length; i++) {
+        const element = elementsLogin[i];
+        element.style = 'display: unset';
+      }
+      for (let i = 0; i < elementsLogout.length; i++) {
+        const element = elementsLogout[i];
+        element.style = 'display: none';
+      }
+      for (let i = 0; i < elementsLoginM.length; i++) {
+        const element = elementsLoginM[i];
+        element.style = 'display: list-item';
+      }
+      for (let i = 0; i < elementsLogoutM.length; i++) {
+        const element = elementsLogoutM[i];
+        element.style = 'display: none';
+      }
+    } else {
+      for (let i = 0; i < elementsLogin.length; i++) {
+        const element = elementsLogin[i];
+        element.style = 'display: none';
+      }
+      for (let i = 0; i < elementsLogout.length; i++) {
+        const element = elementsLogout[i];
+        element.style = 'display: unset';
+      }
+      for (let i = 0; i < elementsLoginM.length; i++) {
+        const element = elementsLoginM[i];
+        element.style = 'display: none';
+      }
+      for (let i = 0; i < elementsLogoutM.length; i++) {
+        const element = elementsLogoutM[i];
+        element.style = 'display: list-item';
+      }
+    }
+  }
+  _setBadge(num = 0) {
+    num = typeof num === 'number' && num > 0 ? num : 0;
+    const badges = document.querySelectorAll('[id=badge]');
+    if (num) {
+      for (let i = 0; i < badges.length; i++) {
+        const element = badges[i];
+        element.style = 'display: inline-flex';
+        element.innerText = num;
+      }
+    } else {
+      for (let i = 0; i < badges.length; i++) {
+        const element = badges[i];
+        element.style = 'display: none';
+      }
+    }
+  }
 }
 let app = {};
 window.onload = () => {
   app = new AppConfig();
-  // console.log(app.state);
+  app.setLoggedInClass();
+
+  document.querySelectorAll('[id=logoutButton]').forEach(element => {
+    element.onclick = () => {
+      if (app.logout()) {
+        window.location = '/';
+      }
+    };
+  });
 };

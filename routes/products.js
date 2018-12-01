@@ -25,18 +25,18 @@ module.exports = (App) => {
   App.get(`${main}s`, async (req, res) => {
     try {
       // validate the token in the headers
-      const { token } = req.headers;
-      const validToken = await Tokens.validateToken(token);
-      if (validToken) {
-        const products = await data.list('products', false);
-        if (products) {
-          res.status(200).send(products);
-        } else {
-          res.status(200).send([]);
-        }
+      // const { token } = req.headers;
+      // const validToken = await Tokens.validateToken(token);
+      // if (validToken) {
+      const products = await data.list('products', false);
+      if (products) {
+        res.status(200).send(products);
       } else {
-        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+        res.status(200).send([]);
       }
+      // } else {
+      //   res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+      // }
     } catch (e) {
       debug(e);
       res.status(500).send({ Error: 'Something went wrong' });
@@ -46,27 +46,27 @@ module.exports = (App) => {
   App.get(`${main}`, async (req, res) => {
     try {
       // validate the token in the headers
-      const { token } = req.headers;
-      const validToken = await Tokens.validateToken(token);
-      if (validToken) {
-        // Get the id
-        let { id } = req.queryString;
-        id = typeof id === 'string' && id.trim()
-          ? id.trim() : false;
-        if (id) {
-          const product = await data.read('products', id);
-          if (product) {
-            const response = product;
-            res.status(200).send(response);
-          } else {
-            res.status(404).send({ Error: 'Could not find the specified product' });
-          }
+      // const { token } = req.headers;
+      // const validToken = await Tokens.validateToken(token);
+      // if (validToken) {
+      // Get the id
+      let { id } = req.queryString;
+      id = typeof id === 'string' && id.trim()
+        ? id.trim() : false;
+      if (id) {
+        const product = await data.read('products', id);
+        if (product) {
+          const response = product;
+          res.status(200).send(response);
         } else {
-          res.status(400).send({ Error: 'Missing required fields' });
+          res.status(404).send({ Error: 'Could not find the specified product' });
         }
       } else {
-        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+        res.status(400).send({ Error: 'Missing required fields' });
       }
+      // } else {
+      //   res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+      // }
     } catch (e) {
       debug(e);
       res.status(500).send({ Error: 'Something went wrong' });

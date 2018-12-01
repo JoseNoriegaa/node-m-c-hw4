@@ -20,7 +20,7 @@ env.dev = {
     sender: process.env.MAINGUN_SENDER,
   },
   templateGlobals: {
-    appName: 'UptimeChecker',
+    appName: 'Pizza Delivery',
     companyName: 'NotARealCompany, Inc.',
     yearCreated: '2018',
     baseUrl: 'http://localhost:3000/',

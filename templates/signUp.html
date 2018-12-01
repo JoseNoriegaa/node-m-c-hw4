@@ -1,3 +1,60 @@
 <div class="content">
-  <h1>signup</h1>
+  <div class="formWrapper">
+    <form id="createAccount" onsubmit="event.preventDefault();return signUpHandler()">
+      <div class="formError"></div>
+      <div class="inputWrapper">
+        <div class="inputLabel">Username</div>
+        <input required id="usernameInput" type="text" name="username" placeholder="Please enter a username" />
+        <p id="usernameError" style="display: none" class="errorText">
+        </p>
+      </div>
+      <div class="inputWrapper">
+        <div class="inputLabel">Full Name</div>
+        <input required id="fullnameInput" type="text" name="fullname" placeholder="Please enter your full name"/>
+        <p id="fullnameError" style="display: none" class="errorText">
+        </p>
+      </div>
+      <div class="inputWrapper">
+        <div class="inputLabel">Email</div>
+        <input required id="emailInput" type="email" name="email" placeholder="Please enter an email"/>
+        <p id="emailError" style="display: none" class="errorText">
+        </p>
+      </div>
+      <div class="inputWrapper">
+        <div class="inputLabel">Address</div>
+        <input required id="addressInput" type="text" name="address" placeholder="Please enter your address"/>
+        <p id="addressError" style="display: none" class="errorText">
+        </p>
+      </div>
+      <div class="inputWrapper">
+        <div class="inputLabel">Password</div>
+        <input required id="passwordInput" type="password" name="password" placeholder="Please enter a password"/>
+        <p id="passwordError" style="display: none" class="errorText">
+        </p>
+      </div>
+      <div class="inputWrapper">
+        <div class="inputLabel">Confirm password</div>
+        <input required id="cfrmpasswordInput" type="password" name="cfrmpasswordInput" placeholder="Please enter again your password"/>
+        <p id="cfrmpasswordError" style="display: none" class="errorText">
+        </p>
+      </div>
+      <div class="inputWrapper">
+        <button id="loginBtn" type="submit" class="button">
+          <div id="spinner" class="spinner small ligth"></div>
+          Login
+        </button>
+      </div>
+    </form>
+    <div class="formDecoration">
+    </div>
+    <br>
+    <div style="width:100%;display:flex;justify-content:center;">
+      Have an account?
+      <br>
+      <a href="/login"> Log in</a>
+    </div>
+  </div>
 </div>
+<link rel="stylesheet" href="/styles/signup.css">
+<link rel="stylesheet" href="/styles/form.css">
+<script src="/scripts/signup.js"></script>
