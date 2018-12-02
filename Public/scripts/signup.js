@@ -4,21 +4,32 @@ const signUpHandler = async (e) => {
   try {
     if (!isLoading && validate()) {
       const spinner = document.getElementById('spinner');
-      const btn = document.getElementById('loginBtn');
+      const btn = document.getElementById('signupBtn');
       // username field
-      const username = document.getElementById("usernameInput").value;
+      const username = document.getElementById("usernameInput");
+      // fullname field
+      const fullname =  document.getElementById("fullnameInput");
+      // email field
+      const email =  document.getElementById("emailInput");
+      // address field
+      const address =  document.getElementById("addressInput");
       // password field
-      const password =  document.getElementById("passwordInput").value;
+      const password =  document.getElementById("passwordInput");
+
       btn.disabled = true;
       spinner.className += ' active';
       isLoading = true;
-
-      // const response = await app.login(username, password);
-      // if (response) {
-      //   console.log('Loggedin');
-      // } else {
-      //   console.log('something went wrong');
-      // }
+      const response = await app.createUser(username.value, email.value, fullname.value, password.value, address.value);
+      if (response) {
+        username.value = null;
+        fullname.value = null;
+        email.value = null;
+        address.value = null;
+        password.value = null;
+        console.log('user created', response);
+      } else {
+        console.log('something went wrong');
+      }
       spinner.className = spinner.className.replace(/ active/g, '');
       isLoading = false;
       btn.disabled = false;

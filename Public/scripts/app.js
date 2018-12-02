@@ -3,7 +3,7 @@ class AppConfig {
     this.state = {
       auth: {},
       products: [],
-      order: {},
+      order: {user: null, items: []},
     };
     this.load();
   }
@@ -459,6 +459,99 @@ class AppConfig {
       }
     } catch (error) {
       console.error('getUserInfo', {error});
+      return false;
+    }
+  }
+  async createUser(username, email, fullname, password, address) {
+    try {
+      username = typeof username === 'string' && username.trim() ? username.trim() : false;
+      email = typeof email === 'string' && email.trim() ? email.trim() : false;
+      fullname = typeof fullname === 'string' && fullname.trim() ? fullname.trim() : false;
+      password = typeof password === 'string' && password.trim() ? password.trim() : false;
+      address = typeof address === 'string' && address.trim() ? address.trim() : false;
+      if (username && email && fullname && password && address) {
+        const method = 'POST';
+        const url = '/api/user';
+        const headers = {
+          'content-type': 'application/json',
+        };
+        const body = {
+          username,
+          email,
+          fullname,
+          password,
+          address,
+        };
+        const config = {
+          method,
+          headers,
+          body: JSON.stringify(body),
+        };
+        const response = await fetch(url, config);
+        if (response) {
+          const data = await response.json();
+          if (data && !data.Error) {
+            return data;
+          } else {
+            console.error('createUser error', {data});
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('createUser', {error});
+      return false;
+    }
+  }
+  async pay(stripeToken) {
+    try {
+      stripeToken = typeof stripeToken === 'string' && stripeToken.trim() ? stripeToken.trim() : false;
+      const { user, id } = this.state.auth;
+      const { order } = this.state;
+      if (user && id && order.items.length > 0 && stripeToken) {
+        const method = 'POST';
+        const url = `/api/order/pay?username=${user}`;
+        const headers = {
+          'content-type': 'application/json',
+          'token': id,
+          'stripeSource': stripeToken,
+        };
+        console.log({headers});
+        
+        const config = {
+          headers,
+          method,
+        };
+        const response = await fetch(url, config);
+        if (response) {
+          if (response.status === 401) {
+            const logout = await this.logout();
+            if (logout) {
+              window.location = '/login';
+            } else {
+              window.sessionStorage.removeItem('auth');
+            }
+            return false;
+          }
+          const data = await response.json();
+          if (data && !data.Error) {
+            this._setBadge(0);
+            return Object.assign(this.state.order, { user: null, items: [] });            
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('pay', error);
       return false;
     }
   }

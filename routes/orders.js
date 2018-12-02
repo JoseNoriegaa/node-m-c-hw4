@@ -219,7 +219,7 @@ module.exports = (App) => {
     try {
       // validate the tokens in the headers
       const { token } = req.headers;
-      let { stripeSource } = req.headers;
+      let { stripesource: stripeSource } = req.headers;
       stripeSource = typeof stripeSource === 'string' && stripeSource.trim()
         ? stripeSource.trim() : false;
       const validToken = await Tokens.validateToken(token);

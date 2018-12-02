@@ -20,6 +20,29 @@
       </tr>
     </table>
   </div>
+  <br>
+  <div>
+    <h3 style="width:100%;text-align: center">PAYMENT</h3>
+    <div class="formWrapper">
+      <form onsubmit="event.preventDefault();return pay()">
+        <div class="inputWrapper">
+          <div class="inputLabel">credit card - <a style="color:blue;" href="https://stripe.com/docs/testing">Token</a> </div>
+          <input id="stripeToken" type="text" name="stripeToken" placeholder="example: tok_visa" />
+          <p id="stripeTokenError" style="display: none" class="stripeTokenText">
+          </p>
+        </div>
+        <div class="inputWrapper">
+          <button id="paymentBtn" type="submit" class="button">
+            <div id="spinner" class="spinner small ligth"></div>
+            Pay Now
+          </button>
+        </div>
+      </form>
+      <p style="width:100%;text-align: center">If your order was processed successfully, you may receive a notification by email.    </p>
+      <div class="formDecoration"></div>
+    </div>
+  </div>
 </div>
+<link rel="stylesheet" href="/styles/form.css">
 <link rel="stylesheet" href="/styles/order.css">
 <script src="/scripts/order.js"></script>
