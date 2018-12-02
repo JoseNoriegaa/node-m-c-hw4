@@ -64,7 +64,7 @@ These are some features that I considered to make the project:
 
 - Clone this repo
   ```console
-  $ git clone --single-branch -b hw3 https://github.com/JoseNoriegaa/node-js-master-class.git homeworkAssingment3 
+  $ git clone --single-branch -b hw3 https://github.com/JoseNoriegaa/node-js-master-class.git homeworkAssignment3 
   ```
 - set the environment variables
   ```text
@@ -76,7 +76,7 @@ These are some features that I considered to make the project:
   ```
 - Run the proyect:
   ```console
-  $ cd homeworkAssingment3
+  $ cd homeworkAssignment3
   $ node index
   ```
 
