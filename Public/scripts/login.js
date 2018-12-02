@@ -1,8 +1,11 @@
 let isLoading = false;
-
+/**
+ * login function 
+ * @param {*} e event
+ */
 const loginHandler = async (e) => {
   try {
-    if (!isLoading && errorHandler()) {
+    if (!isLoading && validate()) {
       const spinner = document.getElementById('spinner');
       const btn = document.getElementById('loginBtn');
       // username field
@@ -27,8 +30,10 @@ const loginHandler = async (e) => {
     console.error({error});
   }
 }
-
-const errorHandler = (err) => {
+/**
+ * Check that all fields in the form are valid
+ */
+const validate = () => {
   // username field
   const username = document.getElementById("usernameInput").value;
   const usernameError = document.getElementById("usernameError");

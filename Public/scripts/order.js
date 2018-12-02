@@ -1,4 +1,5 @@
 let loading = false;
+// table container
 const table = document.getElementById('orderTable');
 
 const groupItems = (items) => {
@@ -14,7 +15,9 @@ const groupItems = (items) => {
   }
   return groupData;
 }
-
+/**
+ * This function render a table with all the products that the user has in his order.
+ */
 const renderTableRows = () => {
   if (app.state.order.user) {
     const items = groupItems(app.state.order.items);
@@ -63,6 +66,9 @@ const renderTableRows = () => {
     table.appendChild(tr);
   }
 }
+/**
+ * Delete a product item in the order
+ */
 async function deleteItem() {
   if (this.id) {
     const op = await app.orderDeleteItem(this.id);
@@ -72,6 +78,9 @@ async function deleteItem() {
     }
   }
 }
+/**
+ * Payment handler
+ */
 async function pay() {
   if (!loading && app.state.auth.id && validate()) {
     const spinner = document.getElementById('spinner');
@@ -91,6 +100,9 @@ async function pay() {
     }
   }
 }
+/**
+ * Check up that all fields in the form are valid.
+ */
 function validate() {
   let valid = true;
   const token = document.getElementById('stripeToken').value;

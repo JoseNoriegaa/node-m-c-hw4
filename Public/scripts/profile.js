@@ -1,6 +1,8 @@
 
 let isLoading = false;
-
+/**
+ * this function fills out the form with the user's info
+ */
 const fillUserInfo = async () => {
   // username field
   const username = document.getElementById("usernameInput");
@@ -18,7 +20,10 @@ const fillUserInfo = async () => {
     address.value = info.address;
   }
 };
-
+/**
+ * this function updates the user's info
+ * @param {*} e event 
+ */
 const updateUserInfo = async (e) => {
   try {
     if (!isLoading && validateInfoForm()) {
@@ -50,7 +55,10 @@ const updateUserInfo = async (e) => {
     console.error({error});
   }
 }
-
+/**
+ * This function updates the user's password
+ * @param {*} e event 
+ */
 const updateUserPwd = async (e) => {
   try {
     if (!isLoading && validatePasswordForm()) {
@@ -76,7 +84,9 @@ const updateUserPwd = async (e) => {
     console.error({error});
   }
 }
-
+/**
+ * Check up that all fields in the form are valid, (user's info)
+ */
 const validateInfoForm = () => {
   let valid = true;
   // fullname field
@@ -116,6 +126,9 @@ const validateInfoForm = () => {
   }
   return valid;
 };
+/**
+ * Check up that all fields in the form are valid, (user's password)
+ */
 const validatePasswordForm = () => {
   let valid = true;
   // password field

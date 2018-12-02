@@ -1,18 +1,33 @@
+/**
+ * Render all products available to the user.
+ * @param {Array} items order items
+ */
 const renderItems = (items) => {
   const productsContainer = document.getElementsByClassName('productsGrid')[0];
   for (let i = 0; i < items.length; i++) {
+    // create the root div
     const element = document.createElement('div');
-    const innerElment = document.createElement('div');
-    innerElment.className = 'add';
-    innerElment.innerHTML = `$ ${items[i].price} ${items[i].currency.toUpperCase()}`;
+    // create the child div
+    const subElement = document.createElement('div');
+
+    // sub-element style
+    subElement.className = 'add';
+    subElement.innerHTML = `$ ${items[i].price} ${items[i].currency.toUpperCase()}`;
+    
+    // root-element style
     element.className = 'productContainer';
     element.style = `background-image: url('${items[i].urlImage}')`;
     element.appendChild(innerElment);
+    // onclick event handler
     element.onclick = onClickItem.bind(items[i]);
+    // Add the root-element to container
     productsContainer.appendChild(element);
   }
 }
-async function onClickItem(prod) {
+/**
+ * onclick event, add product to the order
+ */
+async function onClickItem() {
   if (this.id) {
     const op = await app.orderAddItem(this.id, 1);
     if (!op) {

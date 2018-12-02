@@ -1,10 +1,13 @@
+// Global app config
 class AppConfig {
   constructor() {
+    // app state
     this.state = {
       auth: {},
       products: [],
       order: {user: null, items: []},
     };
+    // get the app data when the window was loaded
     this.load();
   }
   async load() {
@@ -12,6 +15,7 @@ class AppConfig {
       const authSession = window.sessionStorage.getItem('auth');
       if (authSession) {
         Object.assign(this.state, { auth: JSON.parse(authSession) });
+        // Get the previous order data, if it exists
         await this.getOrder();
       }
     } catch (error) {
@@ -555,6 +559,7 @@ class AppConfig {
       return false;
     }
   }
+  // This function hides or shows html objects.
   setLoggedInClass(){
     const elementsLogout = document.getElementsByClassName('loggedOut');
     const elementsLogin = document.getElementsByClassName('loggedIn');
@@ -598,6 +603,7 @@ class AppConfig {
       }
     }
   }
+  // This function hide and show a badge on the "order" button with the number of products that the user has added to the order.
   _setBadge(num = 0) {
     num = typeof num === 'number' && num > 0 ? num : 0;
     const badges = document.querySelectorAll('[id=badge]');
@@ -615,11 +621,13 @@ class AppConfig {
     }
   }
 }
+// App container
 let app = {};
+// start the app
 window.onload = () => {
   app = new AppConfig();
   app.setLoggedInClass();
-
+  // add the logout handler to the logout buttons
   document.querySelectorAll('[id=logoutButton]').forEach(element => {
     element.onclick = () => {
       if (app.logout()) {

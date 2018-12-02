@@ -1,5 +1,8 @@
 let isLoading = false;
-
+/**
+ * Create a new user
+ * @param {*} e event 
+ */
 const signUpHandler = async (e) => {
   try {
     if (!isLoading && validate()) {
@@ -38,7 +41,9 @@ const signUpHandler = async (e) => {
     console.error({error});
   }
 }
-
+/**
+ * Check up that all fields in the form are valid
+ */
 const validate = () => {
   let valid = true;
   // username field
