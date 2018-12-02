@@ -16,6 +16,15 @@ These are some features that I considered to make the project:
 - Static content support
 - Html templates
 
+# Web App
+| Route | Method | Requires auth |
+|--|--|--|
+| / | GET | false |
+| /login | GET | false |
+| /signup | GET | false |
+| /order | GET | true |
+| /profile | GET | true |
+
 # Backend
 ## Routes 
 #### USERS
@@ -50,3 +59,29 @@ These are some features that I considered to make the project:
 | /api/order/item | DELETE | **headers**: token; **body**: username, productId | none | remove item to the order |
 | /api/order | DELETE | **headers**: token; **queryString**: username | none | Delete the order |
 | /api/order/pay | POST | **headers**: token, stripeSource; **queryString**: username | none | Order payment |
+
+# Run it locally
+
+- Clone this repo
+  ```console
+  $ git clone --single-branch -b hw3 https://github.com/JoseNoriegaa/node-js-master-class.git homeworkAssingment3 
+  ```
+- set the environment variables
+  ```text
+  STRIPE_PK=YOUR_STRIPE_PUBLIC_KEY
+  STRIPE_SK=YOUR_STRIPE_SECRET_KEY
+  MAILGUN_DOMAIN=YOUR_MAILGUN_DOMAIN
+  MAILGUN_API_KEY=YOUR_MAILGUN_API_KEY
+  MAINGUN_SENDER=Pizza App <postmaster@YOUR_MAILGUN_DOMAIN>
+  ```
+- Run the proyect:
+  ```console
+  $ cd homeworkAssingment3
+  $ node index
+  ```
+
+<p style="width:100%; text-align:center">
+  <strong>Jose Noriega</strong>
+  <br>
+  Node version: v11.1.0
+</p>
