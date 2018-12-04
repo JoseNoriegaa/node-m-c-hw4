@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const Server = require('./lib/server');
+const CLI = require('./lib/cli');
 
 const App = Server(true, true); // HTTP and HTTPS are enabled
 
@@ -20,3 +21,6 @@ fs.readdirSync(routePath).forEach((file) => {
 
 // Start the server
 App.init();
+
+// Start the CLI
+CLI.init();

@@ -1,6 +1,6 @@
 # Pizza delivery - APP
 
-This is the homework assignment 3 of the course "[Node JS masterClass](https://pirple.thinkific.com/courses/the-nodejs-master-class)".
+This is the homework assignment 4 of the course "[Node JS masterClass](https://pirple.thinkific.com/courses/the-nodejs-master-class)".
 
 These are some features that I considered to make the project:
 - ECMAScript 6
@@ -15,6 +15,19 @@ These are some features that I considered to make the project:
 - No [NPM](https://docs.npmjs.com/about-npm/) or third-party dependencies
 - Static content support
 - Html templates
+- CLI
+
+# CLI
+| Command | Options | Example| Description |
+| -- | -- | -- |  -- |
+| exit | none | $ exit  | Kill the CLI (and the rest of the application)  |
+| clear | none | $ clear  | clear the screen or window of the command console |
+| man | none | $ man | Show this help page |
+| help | none | $ help  | Show this help page |
+| product | --all, --one {product name} | $ product --one pizza | Show info about available products |
+| user | --all, --one {email} | $ user --all | Show info about the registed users |
+| last sessions | none | $ last sessions | View all the users who have signed up in the last 24 hours. |
+| orders | --all, --id {value} | $ orders --all  | Get a specific order by the id or get the all orders registered in the last 24 hours. |
 
 # Web App
 | Route | Method | Requires auth |
