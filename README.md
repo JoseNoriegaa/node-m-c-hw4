@@ -77,7 +77,7 @@ These are some features that I considered to make the project:
 
 - Clone this repo
   ```console
-  $ git clone --single-branch -b hw3 https://github.com/JoseNoriegaa/node-js-master-class.git homeworkAssignment3 
+  $ git clone --single-branch -b hw4 https://github.com/JoseNoriegaa/node-js-master-class.git homeworkAssignment4
   ```
 - set the environment variables
   ```text
