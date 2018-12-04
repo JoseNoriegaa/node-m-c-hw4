@@ -27,7 +27,7 @@ These are some features that I considered to make the project:
 | product | --all, --one {product name} | $ product --one pizza | Show info about available products |
 | user | --all, --one {email} | $ user --all | Show info about the registed users |
 | last sessions | none | $ last sessions | View all the users who have signed up in the last 24 hours. |
-| orders | --all, --id {value} | $ orders --all  | Get a specific order by the id or get the all orders registered in the last 24 hours. |
+| orders | --last, --id {value} | $ orders --last  | Get a specific order by the id or get the all orders registered in the last 24 hours. |
 
 # Web App
 | Route | Method | Requires auth |
