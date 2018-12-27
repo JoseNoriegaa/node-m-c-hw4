@@ -77,7 +77,7 @@ These are some features that I considered to make the project:
 
 - Clone this repo
   ```console
-  $ git clone --single-branch -b hw4 https://github.com/JoseNoriegaa/node-js-master-class.git homeworkAssignment4
+  $ git clone https://github.com/JoseNoriegaa/node-m-c-hw4.git
   ```
 - set the environment variables
   ```text
@@ -89,7 +89,7 @@ These are some features that I considered to make the project:
   ```
 - Run the proyect:
   ```console
-  $ cd homeworkAssignment3
+  $ cd node-m-c-hw4
   $ node index
   ```
 
