@@ -603,7 +603,7 @@ class AppConfig {
       }
     }
   }
-  // This function hide and show a badge on the "order" button with the number of products that the user has added to the order.
+  // This function hide and show the badge on the "order" button with the number of products that the user has added to the order.
   _setBadge(num = 0) {
     num = typeof num === 'number' && num > 0 ? num : 0;
     const badges = document.querySelectorAll('[id=badge]');

@@ -2,7 +2,7 @@
  * Configuration environment file
  */
 
-// Container for all configurations
+// Container for the configurations
 const env = {};
 // Dev env config
 env.dev = {

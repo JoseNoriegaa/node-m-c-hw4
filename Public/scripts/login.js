@@ -31,7 +31,7 @@ const loginHandler = async (e) => {
   }
 }
 /**
- * Check that all fields in the form are valid
+ * Form validator
  */
 const validate = () => {
   // username field
@@ -60,7 +60,7 @@ const validate = () => {
   }
   return true;
 };
-// Check up if the user is already autenticated
+// Check if the user is already autenticated
 setInterval(() => {
   if (app.state.auth.id) {
     window.location = '/';

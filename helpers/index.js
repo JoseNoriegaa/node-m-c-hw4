@@ -306,7 +306,7 @@ helpers.getMimeType = (fileName) => {
   // Validate parameters
   fileName = typeof fileName === 'string' && fileName.indexOf('.') > -1
     ? fileName : false;
-  // Check up if the filename is valid
+  // Check if the filename is valid
   if (fileName) {
     // Get the ext
     const ext = fileName.slice(fileName.lastIndexOf('.') + 1);

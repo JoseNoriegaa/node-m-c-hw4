@@ -9,13 +9,13 @@ const helpers = require('../helpers');
 module.exports = {
   async createToken({ username, email }) {
     try {
-      // Validate all parameters
+      // Validate the parameters
       username = typeof username === 'string' && username.trim()
         ? username.trim() : false;
       email = typeof email === 'string' && username.trim()
         ? email.trim() : false;
       if (username && email) {
-        // Create a token
+        // Create a new token
         const tokenDetails = {
           id: helpers.createRandomString(25),
           user: username,

@@ -1,5 +1,5 @@
 /**
- * Render all products available to the user.
+ * Render the products available for the user.
  * @param {Array} items order items
  */
 const renderItems = (items) => {

@@ -17,11 +17,11 @@ const debug = util.debuglog('products');
 const main = '/api/product';
 
 /**
- * Returns all functions related to the products
+ * Returns the functions related to the products
  * @param {Object} App Server instance
  */
 module.exports = (App) => {
-  // Get all items
+  // Get the items
   App.get(`${main}s`, async (req, res) => {
     try {
       // validate the token in the headers
@@ -35,14 +35,14 @@ module.exports = (App) => {
         res.status(200).send([]);
       }
       // } else {
-      //   res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+      //   res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid.' });
       // }
     } catch (e) {
       debug(e);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
-  // Get a specified item by the id
+  // Get a specific item
   App.get(`${main}`, async (req, res) => {
     try {
       // validate the token in the headers
@@ -59,17 +59,17 @@ module.exports = (App) => {
           const response = product;
           res.status(200).send(response);
         } else {
-          res.status(404).send({ Error: 'Could not find the specified product' });
+          res.status(404).send({ Error: 'Could not find the any product.' });
         }
       } else {
-        res.status(400).send({ Error: 'Missing required fields' });
+        res.status(400).send({ Error: 'Missing required fields.' });
       }
       // } else {
-      //   res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+      //   res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid.' });
       // }
     } catch (e) {
       debug(e);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
   // Create a new item
@@ -87,7 +87,7 @@ module.exports = (App) => {
           currency,
           urlImage,
         } = req.body;
-        // Validate all parameters
+        // Validate the parameters
         name = typeof name === 'string' && name.trim()
           ? name.trim().toLocaleLowerCase() : false;
         price = typeof price === 'string' && /^[0-9]+.?[0-9]+$/.test(price.trim())
@@ -108,29 +108,29 @@ module.exports = (App) => {
             currency,
             urlImage,
           };
-          // create the product
+          // create a new product
           const op = await data.create('products', product.id, product);
           res.status(201).send({ operationSuccess: op, item: product });
         } else if (!name) {
-          res.status(400).send({ Error: 'There are missing or invalid fields, please provide a valid name' });
+          res.status(400).send({ Error: 'There are missing or invalid fields. Please provide a valid name.' });
         } else if (!price) {
-          res.status(400).send({ Error: 'There are missing or invalid fields, please provide a valid price' });
+          res.status(400).send({ Error: 'There are missing or invalid fields. Please provide a valid price.' });
         } else if (!description) {
-          res.status(400).send({ Error: 'There are missing or invalid fields, please provide the description' });
+          res.status(400).send({ Error: 'There are missing or invalid fields. Please provide the description.' });
         } else if (!currency) {
-          res.status(400).send({ Error: 'There are missing or invalid fields, please provide a currency' });
+          res.status(400).send({ Error: 'There are missing or invalid fields. Please provide a valid currency.' });
         } else {
-          res.status(400).send({ Error: 'There are missing or invalid fields' });
+          res.status(400).send({ Error: 'There are missing or invalid fields.' });
         }
       } else {
-        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid.' });
       }
     } catch (e) {
       debug(e);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
-  // Update a specified item by the id
+  // Update a specific item
   App.put(`${main}`, async (req, res) => {
     try {
       // validate the token in the headers
@@ -146,7 +146,7 @@ module.exports = (App) => {
           currency,
           urlImage,
         } = req.body;
-        // Validate all parameters
+        // Validate the parameters
         name = typeof name === 'string' && name.trim()
           ? name.trim().toLocaleLowerCase() : false;
         price = typeof price === 'string' && /^[0-9]+.?[0-9]+$/.test(price.trim())
@@ -157,10 +157,10 @@ module.exports = (App) => {
           ? description.trim().toLocaleLowerCase() : false;
         urlImage = typeof urlImage === 'string' && urlImage.trim()
           ? urlImage.trim().toLocaleLowerCase() : false;
-        // Get the current item data object
+        // Get the data-object of the current item
         const product = await data.read('products', id);
         if (product) {
-          // verify that at least one parameter is valid
+          // Check if at least one parameter is valid
           if (name || price || description || currency || urlImage) {
             // Count the affected fields
             let counter = 0;
@@ -188,20 +188,20 @@ module.exports = (App) => {
             const op = await data.update('products', product.id, product);
             res.status(200).send({ operationSuccess: op, affectedFields: counter, item: product });
           } else {
-            res.status(400).send({ Error: 'There are not fields to update' });
+            res.status(400).send({ Error: 'There are not fields to update.' });
           }
         } else {
-          res.status(400).send({ Error: 'Could not find the specified product' });
+          res.status(400).send({ Error: 'Could not find the specific product.' });
         }
       } else {
-        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid.' });
       }
     } catch (e) {
       debug(e);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
-  // Delete a specified item by the id
+  // Delete a specific item
   App.delete(`${main}`, async (req, res) => {
     try {
       // validate the token in the headers
@@ -210,21 +210,21 @@ module.exports = (App) => {
       if (validToken) {
         // Get the id
         let { id } = req.queryString;
-        // Verify if id is a valid field
+        // check if the id is a valid field
         id = typeof id === 'string' && id.trim() ? id.trim() : false;
         if (id) {
           // delete the user
           const op = await data.delete('products', id);
           res.status(200).send({ operationSuccess: op });
         } else {
-          res.status(400).send({ Error: 'Missing required fields, please provide the id' });
+          res.status(400).send({ Error: 'Missing required fields. Please provide the id.' });
         }
       } else {
-        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid.' });
       }
     } catch (e) {
       debug(e);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
 };

@@ -15,11 +15,11 @@ const debug = util.debuglog('users');
 const main = '/api/user';
 
 /**
- * Returns all routes related to the users
+ * Returns the routes related to the users
  * @param {Object} App Server instance
  */
 module.exports = (App) => {
-  // Get all users
+  // Get the users
   App.get(`${main}s`, async (req, res) => {
     try {
       const users = await data.list('users', false);
@@ -35,10 +35,10 @@ module.exports = (App) => {
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
-  // Get a specified user by the username
+  // Get a specific user
   App.get(`${main}`, async (req, res) => {
     try {
       // Get the username
@@ -52,17 +52,17 @@ module.exports = (App) => {
           delete response.password;
           res.status(200).send(response);
         } else {
-          res.status(404).send({ Error: 'Could not find the specified user' });
+          res.status(404).send({ Error: 'Could not find the specified user.' });
         }
       } else {
-        res.status(400).send({ Error: 'Missing required fields' });
+        res.status(400).send({ Error: 'Missing required fields.' });
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
-  // Create a user
+  // Create a new user
   App.post(`${main}`, async (req, res) => {
     try {
       // Get the user data
@@ -73,7 +73,7 @@ module.exports = (App) => {
         password,
         address,
       } = req.body;
-      // Validate all parameters
+      // Validate the parameters
       username = typeof username === 'string' && username.trim()
         ? username.trim() : false;
       email = typeof email === 'string' && helpers.isAnEmail(email.trim())
@@ -97,21 +97,21 @@ module.exports = (App) => {
         const op = await data.create('users', user.username, user);
         res.status(201).send({ operationSuccess: op });
       } else if (!username) {
-        res.status(400).send({ Error: 'There are missing or invalid fields, please provide a valid username' });
+        res.status(400).send({ Error: 'There are missing or invalid fields. Please provide a valid username.' });
       } else if (!email) {
-        res.status(400).send({ Error: 'There are missing or invalid fields, please provide a valid email' });
+        res.status(400).send({ Error: 'There are missing or invalid fields. Please provide a valid email.' });
       } else if (!fullname) {
-        res.status(400).send({ Error: 'There are missing or invalid fields, please provide the "fullname"' });
+        res.status(400).send({ Error: 'There are missing or invalid fields. Please provide the "fullname".' });
       } else if (!password) {
-        res.status(400).send({ Error: 'There are missing or invalid fields, please provide a password' });
+        res.status(400).send({ Error: 'There are missing or invalid fields. Please provide a password.' });
       } else if (!address) {
-        res.status(400).send({ Error: 'There are missing or invalid fields, please provide a valid address' });
+        res.status(400).send({ Error: 'There are missing or invalid fields. Please provide a valid address.' });
       } else {
-        res.status(400).send({ Error: 'There are missing or invalid fields' });
+        res.status(400).send({ Error: 'There are missing or invalid fields.' });
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
   // Update a specified user by the username
@@ -127,7 +127,7 @@ module.exports = (App) => {
         password,
         address,
       } = req.body;
-      // Validate all parameters
+      // Validate the parameters
       username = typeof username === 'string' && username.trim()
         ? username.trim() : false;
       email = typeof email === 'string' && helpers.isAnEmail(email.trim())
@@ -138,10 +138,10 @@ module.exports = (App) => {
         ? password.trim() : false;
       address = typeof address === 'string' && address.trim()
         ? address.trim() : false;
-      // Get the current user data object
+      // Get the data-object of the current item
       const user = await data.read('users', username);
       if (user) {
-        // verify that at least one parameter is valid
+        // check if at least one parameter is valid
         if (email || fullname || password || address) {
           // Count the affected fields
           let counter = 0;
@@ -165,22 +165,22 @@ module.exports = (App) => {
           const op = await data.update('users', username, user);
           res.status(200).send({ operationSuccess: op, affectedFields: counter });
         } else {
-          res.status(400).send({ Error: 'There are not fields to update' });
+          res.status(400).send({ Error: 'There are not fields to update.' });
         }
       } else {
-        res.status(400).send({ Error: 'Could not find the specified user' });
+        res.status(400).send({ Error: 'Could not find the user.' });
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
-  // Delete a specified user by the username
+  // Delete a specific user
   App.delete(`${main}`, async (req, res) => {
     try {
       // Get the username
       let { username } = req.queryString;
-      // Verify if username is a valid fieldç
+      // check if username is a valid fieldç
       username = typeof username === 'string' && username.trim()
         ? username.trim() : false;
       if (username) {
@@ -188,11 +188,11 @@ module.exports = (App) => {
         const op = await data.delete('users', username);
         res.status(200).send({ operationSuccess: op });
       } else {
-        res.status(400).send({ Error: 'Missing required fields, please provide the username' });
+        res.status(400).send({ Error: 'Missing required fields. Please provide the username.' });
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
   // TODO: Create a stripe token with credit card
@@ -214,21 +214,21 @@ module.exports = (App) => {
               if (data && !err) {
                 // Something
               } else {
-                res.status(500).send({ Error: 'Something went wrong' });
+                res.status(500).send({ Error: 'Something went wrong.' });
               }
             });
           } else {
-            res.status(400).send({ Error: 'Missing required fields' });
+            res.status(400).send({ Error: 'Missing required fields.' });
           }
         } else {
-          res.status(400).send({ Error: 'Missing required fields, please provide the username' });
+          res.status(400).send({ Error: 'Missing required fields. Please provide the username.' });
         }
       } else {
-        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid' });
+        res.status(401).send({ Error: 'Not authorized. The token in the headers is missing or it is not valid.' });
       }
     } catch (error) {
       debug(error);
-      res.status(500).send({ Error: 'Something went wrong' });
+      res.status(500).send({ Error: 'Something went wrong.' });
     }
   });
 };
