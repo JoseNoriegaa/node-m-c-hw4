@@ -1,5 +1,5 @@
 /**
- * Primary file for the API
+ * Main file for the API
  */
 
 // Dependencies

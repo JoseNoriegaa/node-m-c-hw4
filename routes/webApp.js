@@ -5,7 +5,7 @@
 const helpers = require('../helpers');
 
 /**
- * Returns all routes related to webapp
+ * Returns the routes related to the WebApp
  * @param {Object} App Server instance
  */
 module.exports = (App) => {
@@ -27,7 +27,7 @@ module.exports = (App) => {
           }
         });
       } else {
-        res.status(404).send({ Error: 'Something went wrong'});
+        res.status(404).send({ Error: 'Something went wrong.' });
       }
     });
   });
@@ -48,7 +48,7 @@ module.exports = (App) => {
           }
         });
       } else {
-        res.status(404).send({ Error: 'Something went wrong'});
+        res.status(404).send({ Error: 'Something went wrong.' });
       }
     });
   });
@@ -70,7 +70,7 @@ module.exports = (App) => {
           }
         });
       } else {
-        res.status(404).send({ Error: 'Something went wrong'});
+        res.status(404).send({ Error: 'Something went wrong.' });
       }
     });
   });
@@ -91,7 +91,7 @@ module.exports = (App) => {
           }
         });
       } else {
-        res.status(404).send({ Error: 'Something went wrong'});
+        res.status(404).send({ Error: 'Something went wrong.' });
       }
     });
   });
@@ -112,7 +112,7 @@ module.exports = (App) => {
           }
         });
       } else {
-        res.status(404).send({ Error: 'Something went wrong'});
+        res.status(404).send({ Error: 'Something went wrong.' });
       }
     });
   });

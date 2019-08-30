@@ -85,7 +85,7 @@ const updateUserPwd = async (e) => {
   }
 }
 /**
- * Check up that all fields in the form are valid, (user's info)
+ * Check if the fields in the form are valid, (user's info)
  */
 const validateInfoForm = () => {
   let valid = true;
@@ -127,7 +127,7 @@ const validateInfoForm = () => {
   return valid;
 };
 /**
- * Check up that all fields in the form are valid, (user's password)
+ * Check if the fields in the form are valid, (user's password)
  */
 const validatePasswordForm = () => {
   let valid = true;
@@ -163,7 +163,7 @@ const validatePasswordForm = () => {
 setTimeout(async () => {
   await fillUserInfo();
 }, 50);
-// Check up if the user is already autenticated
+// Check if the user is already autenticated
 setInterval(() => {
   if (!app.state.auth.id) {
     window.location = '/';

@@ -190,7 +190,7 @@ body {
 }
 
 /* 
- * Transform all the slices of hamburger
+ * Transform the slices of the hamburger
  * into a crossmark.
  */
 #menuToggle input:checked~span {
